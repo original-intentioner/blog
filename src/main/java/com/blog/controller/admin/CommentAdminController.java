@@ -56,7 +56,7 @@ public class CommentAdminController {
 		Long total = commentService.getTotal(map);
 		JSONObject result = new JSONObject();
 		JsonConfig config =new JsonConfig();
-		config.registerJsonValueProcessor(Date.class, new DateJsonValueProcessor("yyyy-mm-dd"));
+		config.registerJsonValueProcessor(Date.class, new DateJsonValueProcessor("yyyy-MM-dd"));
 		JSONArray jsonArray = JSONArray.fromObject(commentList,config);
 		result.put("rows",jsonArray);
 		result.put("total", total);

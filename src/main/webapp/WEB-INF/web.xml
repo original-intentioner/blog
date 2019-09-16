@@ -10,7 +10,7 @@
   
   <!--  -->
   <welcome-file-list>
-  	<welcome-file>a.jsp</welcome-file>
+  	<welcome-file>index.html</welcome-file>
   </welcome-file-list>
   <!--shiro过滤器，对所有的文件都进行过滤  -->
   <filter>
@@ -28,11 +28,31 @@
   	<url-pattern>/*</url-pattern>
   </filter-mapping>
   
-  <!-- Spring上下文配置文件 -->
+  <!-- Spring上下文配置文件,在上下文对象创建的时候，在此文件下加载配置信息 -->
+  <!-- 全局的servletContext参数， -->
   <context-param>
   	<param-name>contextConfigLocation</param-name>
   	<param-value>classpath:applicationContext.xml</param-value>
   </context-param>
+  
+  <!-- 配置自动登录的过滤器 -->
+	<filter>
+		<filter-name>loginFilter</filter-name>
+		<filter-class>com.blog.filter.LoginFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>loginFilter</filter-name>
+		<url-pattern>/login.jsp</url-pattern>
+	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>loginFilter</filter-name>
+		<url-pattern>/main.jsp</url-pattern>
+	</filter-mapping>
+	
+	
+	
   
   <!-- 编码过滤器 -->
   <filter>
@@ -43,7 +63,6 @@
   		<param-name>encoding</param-name>
   		<param-value>UTF-8</param-value>
   	</init-param>
-  	
   </filter>
   
   <filter-mapping>
@@ -51,11 +70,12 @@
   	<url-pattern>/*</url-pattern>
   </filter-mapping>
   
-  <!-- spring监听器,当web项目创建时引入spring -->
+  <!-- 全局监听器,当web项目创建时引入spring -->
   <listener>
   	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
   
+  <!-- ServletContext监听器，在项目初始化，即ServletContext创建的时候的时候获得各个类别下的总数 -->
   <listener>
   	<listener-class>com.blog.service.impl.InitComponent</listener-class>
   </listener>
@@ -80,4 +100,5 @@
   	<servlet-name>springMVC</servlet-name>
   	<url-pattern>*.html</url-pattern>
   </servlet-mapping>
+
 </web-app>

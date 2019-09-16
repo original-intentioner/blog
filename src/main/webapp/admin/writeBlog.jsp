@@ -33,7 +33,7 @@ function submitData(){
 		$.messager.alert("系统提示","请输入博客类别！");
 	}else if(content==null || content==''){
 		$.messager.alert("系统提示","请输入内容！");
-	}else{
+	}else{ 			//将博客的信息发布到后台封装到blog对象中
 		$.post("${pageContext.request.contextPath}/admin/blog/save.do",
 			{'title':title,'blogType.id':blogTypeId,'content':content,
 			'contentNoTag':UE.getEditor('editor').getContentTxt(),

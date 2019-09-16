@@ -42,17 +42,16 @@ public class CommentController {
 			comment.setUserIp(userIp);
 			if(comment.getId()==null) {
 				resultTotal = commentService.add(comment);
-				
 				//给对应的博客评论数加1
 				Blog blog = blogService.findById(comment.getBlog().getId());
 				blog.setReplyHit(blog.getReplyHit()+1);
 				blogService.update(blog);
 			}
-		}
-		if(resultTotal>0) {
-			result.put("success", Boolean.TRUE);
-		}else {
-			result.put("success", Boolean.FALSE);
+			if(resultTotal>0) {
+				result.put("success", Boolean.TRUE);
+			}else {
+				result.put("success", Boolean.FALSE);
+			}
 		}
 		ResponseUtil.write(response,result);
 		return null;

@@ -50,9 +50,8 @@ public class BlogController {
 		
 		//查询评论
 		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("blogID", blog.getId());
+		map.put("blogId", blog.getId());
 		map.put("state",1);
-		commentService.list(map);
 		mav.addObject("commentList",commentService.list(map));
 		
 		//处理关键字
@@ -61,7 +60,7 @@ public class BlogController {
 			mav.addObject("keyWords",null);
 		}else {
 			String[] arr = keyWord.split(" ");
-			mav.addObject("keyWord",StringUtil.filterWhite(Arrays.asList(arr)));
+			mav.addObject("keyWords",StringUtil.filterWhite(Arrays.asList(arr)));
 		}
 		
 		mav.setViewName("index");

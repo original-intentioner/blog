@@ -77,6 +77,7 @@
 					$.messager.alert("系统提示","保存失败");
 					return;
 				}
+				closeLinkDialog();
 			}
 		});
 	}

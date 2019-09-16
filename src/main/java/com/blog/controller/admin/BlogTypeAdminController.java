@@ -48,7 +48,7 @@ public class BlogTypeAdminController {
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("start",pageBean.getStart());
 		map.put("size", pageBean.getPageSize());
-		//查询博客列表
+		//查询博客类型列表
 		List<BlogType> blogTypeList = blogTypeService.list(map);
 		//查询共有多少条数据
 		Long total = blogTypeService.getTotal(map);

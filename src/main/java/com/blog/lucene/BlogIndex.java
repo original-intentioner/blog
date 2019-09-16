@@ -115,10 +115,11 @@ public class BlogIndex {
 	 */
 	public List<Blog> searchBlog(String q) throws Exception{
 		List<Blog> blogList = new LinkedList<Blog>();
+		//获取lucene的目录
 		dir = FSDirectory.open(Paths.get(lucenePath,new String[0]));
-		//获取reader
+		//获取reader流
 		IndexReader reader = DirectoryReader.open(dir);
-		//获取流
+		//获取索引搜索对象
 		IndexSearcher is = new IndexSearcher(reader);
 		
 		//放入查询条件
@@ -145,7 +146,7 @@ public class BlogIndex {
 		Highlighter highlighter = new Highlighter(simpleHTMLFormatter,scorer);
 		highlighter.setTextFragmenter(fragmenter);
 		
-		//吧查询到的结果放入bloglist中
+		//把查询到的结果放入blogList中
 		for(ScoreDoc scoreDoc:hits.scoreDocs) {
 			Document doc = is.doc(scoreDoc.doc);
 			Blog blog = new Blog();

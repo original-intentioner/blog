@@ -11,18 +11,22 @@
 				<c:choose>
 					<c:when test="${blogList.size()==0}">
 						<div align="center" style="padding-top:20px">未查询到结果，请换个关键字试试</div>
+						
 					</c:when>
 					<c:otherwise>
-					<c:forEach var="blog" items="${blogList }">
-						<li style="padding-top:20px">
-							<span class="title">
-								<a href="${pageContext.request.contextPath}/blog/articles/${blog.id}.html" target="_blank">${blog.title }</a>
-							</span>
-						</li>
-						<span class="summary">摘要：${blog.content}...</span>
-						<a href="${pageContext.request.contextPath}/blog/articles/${blog.id}.html" target="_blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;发布日期：${blog.releaseDateStr }</a>
-					</c:forEach>
-				</c:otherwise>
+						<c:forEach var="blog" items="${blogList}">
+							<li style="padding-top:20px">
+								<span class="title">
+									<a href="${pageContext.request.contextPath}/blog/articles/${blog.id}.html" target="_blank">${blog.title }</a>
+								</span>
+							
+								<span class="summary">摘要：${blog.content}...</span>
+								<a href="${pageContext.request.contextPath}/blog/articles/${blog.id}.html" target="_blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;发布日期：${blog.releaseDateStr }</a>
+								<hr style="height:5px;border:none;border-top:1px dashed gray;padding-bottom:  10px;" />
+							</li>
+						</c:forEach>
+						
+					</c:otherwise>
 				</c:choose>
 			</ul>
 		</div>

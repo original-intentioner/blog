@@ -63,7 +63,7 @@
 				<th field="id" width="20" align="center">编号</th>
 				<th field="blog" width="200" align="center" formatter="formateBlogTitle">博客标题</th>
 				<th field="content" width="200" align="center">评论内容</th>
-				<th field="commentDate" width="50" align="center">评论日期</th>
+				<th field="commentDate" width="50" align="center" >评论日期</th>
 				<th field="state" width="50" align="center" formatter="formatState">评论状态</th>
 			</tr>
 		</thead>

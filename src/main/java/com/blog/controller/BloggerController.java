@@ -1,7 +1,10 @@
 package com.blog.controller;
 
+import java.util.ArrayList;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -12,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.blog.entity.Blogger;
 import com.blog.service.BloggerService;
+import com.blog.util.Const;
 import com.blog.util.CryptographyUtil;
 /*
  * 博主登录相关
@@ -24,9 +28,12 @@ public class BloggerController {
 	private BloggerService bloggerService;
 	
 	@RequestMapping("/login")
-	public String login(Blogger blogger,HttpServletRequest request) {
+	public String login(Blogger blogger,HttpServletRequest request,HttpSession session) {
+		HttpSession loginSession = request.getSession();
+		
 		String username = blogger.getUsername();
 		String password = blogger.getPassword();
+		
 		String pw = CryptographyUtil.md5(password, "java1234");
 		/**从shiro中获取subject*/
 		Subject subject = SecurityUtils.getSubject();
@@ -35,6 +42,10 @@ public class BloggerController {
 		try {
 			//传递token给shiro的realm
 			subject.login(token);
+
+			blogger = bloggerService.getByUsername(username);
+			SecurityUtils.getSubject().getSession().setAttribute(Const.CURRENT_USER, blogger);
+
 			return "redirect:/admin/main.jsp";
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -55,6 +66,7 @@ public class BloggerController {
 		mav.addObject("blogger",bloggerService.find());
 		mav.addObject("mainPage","foreground/blogger/info.jsp");
 		mav.addObject("pageTitle","关于博主个人博客系统");
+		//设置视图名称index
 		mav.setViewName("index");
 		return mav;
 	}

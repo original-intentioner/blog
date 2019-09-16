@@ -48,19 +48,32 @@ function submitData(){
 	<table cellspacing="20px">
 		<tr>
 			<td width="80px">用户名：</td>
-			<td><input type="text" id="username" name="username" style="width:200px;" value="${currentUser.username}" readonly="readonly"></td>
+			<td>
+				<input type="text" id="username" name="username" 
+				style="width:200px;" value="${currentUser.username}" readonly="readonly">
+			</td>
 		</tr>
 		<tr>
 			<td width="80px">昵称：</td>
-			<td><input type="text" id="nickName" name="nickName" style="width:200px;" value="${currentUser.nickName}" ></td>
+			<td>
+				<input type="text" id="nickName" name="nickName" 
+				style="width:200px;" value="${currentUser.nickName}">
+			</td>
 		</tr>
 		<tr>
 			<td width="80px">个性签名：</td>
-			<td><input type="text" id="sign" name="sign" style="width:400px;" value="${currentUser.sign}" ></td>
+			<td>
+				<input type="text" id="sign" name="sign" 
+				style="width:400px;" value="${currentUser.sign}">
+			</td>
 		</tr>
 		<tr>
 			<td width="80px">个人头像：</td>
-			<td><input type="file" id="imageFile" name="imageFile" style="width:200px;"  ></td>
+			<td>
+				
+				<input type="file" id="imageFile" name="imageFile" 
+				style="width:200px;">|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${currentUser.imageName}
+			</td>
 		</tr>
 		<tr>
 			<td width="80px">个人简介：</td>
@@ -69,7 +82,10 @@ function submitData(){
 			</td>
 		</tr>
 		<tr>
-			<td><a href="javascript:submitData()" class="easyui-linkbutton" data-options="iconCls:'icon-submit'">提交</a></td>
+			<td>
+				<a href="javascript:submitData()" class="easyui-linkbutton" 
+				data-options="iconCls:'icon-submit'">提交</a>
+			</td>
 		</tr>
 	</table>
 </form>	
@@ -78,7 +94,7 @@ function submitData(){
 
 	//实例化编辑器
 	var ue = UE.getEditor("editor");
-	ue.addListener("ready",function(){
+	  ue.addListener("ready",function(){
 		//通过ajax获取数据
 		UE.ajax.request("${pageContext.request.contextPath}/admin/blogger/find.do",{
 			method:"post",
@@ -89,7 +105,7 @@ function submitData(){
 				UE.getEditor("editor").setContent(result.profile);
 			}
 		});
-	});
+	}); 
 	
 
 </script>

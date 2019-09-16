@@ -21,22 +21,33 @@ import com.blog.util.DateUtil;
 import com.blog.util.ResponseUtil;
 
 import net.sf.json.JSONObject;
-
+/**
+ * 博主相关
+ * @author JYS
+ *
+ */
 @Controller
 @RequestMapping({"/admin/blogger"})
 public class BloggerAdminController {
 	
 	@Resource
 	private BloggerService bloggerService;
+	/**
+	 * 
+	 * @param imageFile 从前端传过来的图片
+	 * @param blogger  收集到的博主信息
 	
-	
+	 */
 	@RequestMapping({"/save"})
 	public String save(@RequestParam("imageFile")MultipartFile imageFile,Blogger blogger,
 			HttpServletResponse response,HttpServletRequest request) throws IllegalStateException, IOException {
 		if(!imageFile.isEmpty()) {
 			String filePath = request.getServletContext().getRealPath("/");
+			String path = request.getServletContext().getContextPath();
+			
 			String imageName = DateUtil.getCurrentDateStr()+"."+imageFile.getOriginalFilename().split("\\.")[1];
 			imageFile.transferTo(new File(filePath+"static/userImages/"+imageName));
+			
 			blogger.setImageName(imageName);
 		}
 		int resultTotal = bloggerService.update(blogger);
@@ -53,7 +64,7 @@ public class BloggerAdminController {
 		return null;
 	}
 	/**
-	 * 获取博主的json格式
+	 * 获取博主的json格式,在修改博主信息的时候用于editer编辑器中数据的回显。在初始阶段用于找到admin博主
 	 * 
 	 * */
 	@RequestMapping("/find")
@@ -68,17 +79,18 @@ public class BloggerAdminController {
 	 * @throws IOException 
 	 * */
 	@RequestMapping({"/modifyPassword"})
-	public String modifyPassword(@RequestParam("newPassword")String newPassword,HttpServletResponse response) throws IOException {
+	public String modifyPassword(@RequestParam("newPassword")String newPassword,HttpServletRequest request,HttpServletResponse response) throws IOException {
 		Blogger blogger = new Blogger();
-		Blogger oldBlogger = (Blogger)(Blogger)SecurityUtils.getSubject().getSession().getAttribute(Const.CURRENT_USER);
-		System.out.println(oldBlogger.getId());
+		Blogger oldBlogger = (Blogger)SecurityUtils.getSubject().getSession().getAttribute(Const.CURRENT_USER);
+		
 		blogger.setId(oldBlogger.getId());
-
+		//设置md5加密
 		blogger.setPassword(CryptographyUtil.md5(newPassword, "java1234"));
 		int resultTotal = bloggerService.update(blogger);
 		JSONObject result = new JSONObject();
 		if(resultTotal>0) {
 			result.put("success", Boolean.TRUE);
+			SecurityUtils.getSubject().getSession().setAttribute(Const.CURRENT_USER,null);
 		}else {
 			result.put("success", Boolean.FALSE);
 		}
@@ -88,8 +100,9 @@ public class BloggerAdminController {
 	
 	/**用户退出*/
 	@RequestMapping({"/logout"})
-	public String logout() {
+	public String logout(HttpServletResponse response) {
 		SecurityUtils.getSubject().logout();
+		SecurityUtils.getSubject().getSession().setAttribute(Const.CURRENT_USER, null);
 		return "redirect:/login.jsp";
 	}
 	

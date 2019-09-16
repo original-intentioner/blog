@@ -22,13 +22,23 @@
 		        <span class="icon-bar"></span>
 		        <span class="icon-bar"></span>
 		      </button>
-		      <a class="navbar-brand" href="${pageContext.request.contextPath}/index.html"><font color="black"><strong>首页</strong></font></a>
+		      <a class="navbar-brand" href="${pageContext.request.contextPath}/index.html">
+		      	<font color="black"><strong>首页</strong></font>
+		      </a>
 		    </div>
 
 		    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" >
 		      <ul class="nav navbar-nav">
-		        <li><a href="${pageContext.request.contextPath}/blogger/aboutMe.html"><font color="black"><strong>关于博主</strong></font></a></li>
-		        <li><a href="${pageContext.request.contextPath}/login.jsp"><font color="black"><strong>登录后台</strong></font></a></li>
+		        <li>
+			        <a href="${pageContext.request.contextPath}/blogger/aboutMe.html">
+			       		<font color="black"><strong>关于博主</strong></font>
+			        </a>
+		        </li>
+		        <li>
+			        <a href="${pageContext.request.contextPath}/login.jsp">
+			        	<font color="black"><strong>登录后台</strong></font>
+			        </a>	
+		        </li>
 		      </ul>
 		      <form class="navbar-form navbar-right" action="${pageContext.request.contextPath }/blog/q.html" method="post" onsubmit="return checkData()">
 		        <div class="form-group" >

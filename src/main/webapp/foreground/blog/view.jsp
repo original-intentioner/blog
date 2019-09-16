@@ -19,47 +19,62 @@
 		}else if(imageCode==null ||imageCode==''){
 			alert("请填写验证码");
 		}else{
-			$.post("${pageContext.request.contextPath }/comment/save.do",
-					{'content':content,'imageCode':imageCode,'blog.id':${blog.id},
+			$.post(
+					"${pageContext.request.contextPath }/comment/save.do",
+					{'content':content,'imageCode':imageCode,'blog.id':'${blog.id}'},
 					function(result){
 						if(result.success){
-							window.location.reload();
 							alert("评论已成功提交，审核通过后显示");
+							//重新加载图片
+							loadimage();
+							//重新加载的目的是为了重新获取新的验证码。用重新加载函数来代替
+							//window.location.reload();
+							$("#content").val("");
+							$("#imageCode").val("");
 						}else{
 							alert(result.errorInfo);
 						}
-					},"json")
+					},
+					"json"
+					)
 		}
 	}
 	/**根据关键字查询*/	
 	function query1(keyWord){
+		
 		$("#q1").val(keyWord);
 		$("#queryForm").submit();
 	}
 </script>
 <div class="data_list">
+	
 	<div class="data_list_title">
-		<img src="${pageContext.request.contextPath }/static/images/blog_show_icon.png"/>
+		<img src="${pageContext.request.contextPath}/static/images/blog_show_icon.png"/>
 		博客信息
 	</div>
+	
 	<div>
-		<div class="blog_title"><h3><strong>${blog.title}</strong></h3></div>
-			<div style="padding-left:380px;padding-bottom:20px;padding-top:10px">
-				<div class="bshare-custom">
-					<a title="分享到qq空间" class="bshare-qzone"></a>
-					<a title="分享到新浪微博" class="bshare-sinaminiblog"></a>
-					<a title="更多平台" class="bshare-more bshare-more-icon more-style-addthis"></a>
-					<script type="text/javascript" charset="UTF-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=1&amp;lang=zh"></script>
-					<script type="text/javascript" charset="UTF-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
-				</div>
-				
-			</div>
+		<div class="blog_title">
+			<h3><strong>${blog.title}</strong></h3>
+		</div>
+		
+		<div style="padding-left:380px;padding-bottom:20px;padding-top:10px">
+			<div class="bshare-custom">
+				<a title="分享到qq空间" class="bshare-qzone"></a>
+				<a title="分享到新浪微博" class="bshare-sinaminiblog"></a>
+				<a title="更多平台" class="bshare-more bshare-more-icon more-style-addthis"></a>
+				<script type="text/javascript" charset="UTF-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=1&amp;lang=zh"></script>
+				<script type="text/javascript" charset="UTF-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
+			</div>	
+		</div>
+		
 		<div class="blog_info">
 			发布时间：【<fmt:formatDate value="${blog.releaseDate}" type="date" pattern="yyyy-MM-dd HH:mm"/>】
 			&nbsp;&nbsp;博客类别：${blog.blogType.typeName}
 			&nbsp;&nbsp;阅读：${blog.clickHit}
 			&nbsp;&nbsp;评论：${blog.replyHit}
 		</div>
+		
 		<div class="blog_content">
 			${blog.content}
 		</div>
@@ -67,14 +82,14 @@
 		<div class="blog_keyWord">
 			<font><strong>关键字：</strong></font>
 			<c:choose >
-				<c:when test="${keyWords == null }">
+				<c:when test="${keyWords==null}">
 					&nbsp;&nbsp;无
 				</c:when>
 				<c:otherwise>
 					<form id="queryForm" action="${pageContext.request.contextPath }/blog/q.html" method="post">
 						<input type="hidden" id="q1" name="q"/>
-						<c:forEach var="keyWord" items="${keyWords }">
-							&nbsp;&nbsp;<a href="javascript:query1('${keyWord}')" target="_blank">${keyWord}</a>&nbsp;&nbsp;
+						<c:forEach var="keyWord" items="${keyWords}">
+							&nbsp;&nbsp;<a href="javascript:query1('${keyWord}')" ><font color="orange">${keyWord}</font></a>&nbsp;&nbsp;
 						</c:forEach>
 					</form>
 				</c:otherwise>
@@ -83,6 +98,8 @@
 		<div class="blog_lastAndNextPage">
 			${pageCode}
 		</div>
+		
+		<!-- 评论内容 -->
 		<div class="data_list">
 			<div class="data_list_title">
 				<img  src="${pageContext.request.contextPath }/static/images/comment_icon.png">
@@ -128,28 +145,26 @@
 	</div>
  </div>
  
+ <!-- 发表评论 -->
  <div class="data_list">
  	<div class="data_list_title">
 		<img  src="${pageContext.request.contextPath }/static/images/publish_comment_icon.png">
 		发表评论
-		
 	</div>
 	<div class="publish_comment">
 		<div>
-		<textarea rows="3" cols="" style="width:100%" id="content" name="content" placeholder="请输入您的评论"></textarea>
-	
-	</div>
-	<div class="verCode">
-		验证码：<input type="text" name="imageCode" id="imageCode" size="10"
-			onKeydown="if(event.keyCode==13) submitData()"/>
-		&nbsp;<img alt="" src="${pageContext.request.contextPath }/image.jsp" name="randImage" 
-				id="randImage" title="换一张试试"  onclick="javascript:loadimage()" width="60"
-				height="20" border="1" align="absmiddle">
-	</div>
-	<div class="publishButton">
-		<button class="btn btn-primary" type="button" onclick="submitData()">发表评论</button>
-	
-	</div>
+			<textarea rows="3" cols="" style="width:100%" id="content" name="content" placeholder="请输入您的评论"></textarea>
+		</div>
+		<div class="verCode">
+			验证码：<input type="text" name="imageCode" id="imageCode" size="10"
+				onKeydown="if(event.keyCode==13) submitData()"/>
+			&nbsp;<img alt="" src="${pageContext.request.contextPath }/image.jsp" name="randImage" 
+					id="randImage" title="换一张试试"  onclick="javascript:loadimage()" width="60"
+					height="20" border="1" align="absmiddle">
+		</div>
+		<div class="publishButton">
+			<button class="btn btn-primary" type="button" onclick="submitData()">发表评论</button>
+		</div>
 	</div>
 	
  </div>

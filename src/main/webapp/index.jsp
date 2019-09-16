@@ -41,10 +41,11 @@
 					博主信息
 				</div>
 				<div class="user_image">
-					<img src="${pageContext.request.contextPath }/static/userImages/${blogger.imageName}"/>
+					<img src="${pageContext.request.contextPath}/static/userImages/${currentUser.imageName}"/>
 				</div>
-				<div class="nickName">昵称</div>
-				<div class="userSign">(个性签名)</div>
+				<div class="nickName">昵称：${currentUser.nickName}</div>
+				<div class="userSign" style="padding-left:20px">个性签名：(${currentUser.sign})</div>
+				
 			</div>
 			
 			<div class="data_list">
@@ -63,13 +64,13 @@
 			
 			<div class="data_list">
 				<div class="data_list_title">
-					<img src="static/images/byDate_icon.png"/>
+					<img src="${pageContext.request.contextPath }/static/images/byDate_icon.png"/>
 					按日志日期
 				</div>
 				<div class="datas">
 					<ul>
 						<c:forEach var="blogCount" items="${blogCountList }">
-							<li><span><a href="${pageContext.request.contextPath }/index.html?releaseDateStr=${blogCount.releaseDateStr }">${blogCount.releaseDateStr }(${blogCount.blogCount})</a></span></li>
+							<li><span><a href="${pageContext.request.contextPath}/index.html?releaseDateStr=${blogCount.releaseDateStr }">${blogCount.releaseDateStr }(${blogCount.blogCount})</a></span></li>
 							
 						</c:forEach>
 					</ul>
@@ -78,14 +79,15 @@
 			
 			<div class="data_list">
 				<div class="data_list_title">
-					<img src="static/images/link_icon.png"/>
+					<img src="${pageContext.request.contextPath}/static/images/link_icon.png"/>
 					友情链接
 				</div>
 				<div class="datas">
 					<ul>
-						<c:forEach var="link" items="${linkList }">
-							<li><span><a href="${link.linkUrl }" target="_blank">${link.linkName }</a></span></li>
-							
+						<c:forEach var="link" items="${linkList}">
+							<li>
+								<span><a href="${link.linkUrl}" target="_blank">${link.linkName}</a></span>
+							</li>	
 						</c:forEach>
 					</ul>
 				</div>

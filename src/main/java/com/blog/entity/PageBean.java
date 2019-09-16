@@ -7,6 +7,7 @@ public class PageBean {
 	private int pageSize;
 	/**从第几条数据开始查询显示*/
 	private int start;
+	/**传入当前页面跟每个页面存放的数量*/
 	public PageBean(int page, int pageSize) {
 		super();
 		this.page = page;
