@@ -33,28 +33,29 @@ public class BloggerController {
 		
 		String username = blogger.getUsername();
 		String password = blogger.getPassword();
-		
+		//根据密码及对应的加密算法获取到加密后的值
 		String pw = CryptographyUtil.md5(password, "java1234");
-		/**从shiro中获取subject*/
+		/**从shiro中获取subject，得到一个主体对象*/
 		Subject subject = SecurityUtils.getSubject();
-		/**根据用户名和密码生成token*/
+		/**根据用户名和加密后的密码密码生成token*/
 		UsernamePasswordToken token = new UsernamePasswordToken(username, pw);
 		try {
-			//传递token给shiro的realm
+			//执行登录，这步会被委托给securityManager对象去，他实现了authentictor接口进行身份验证
+			//authentictor会委托给相应的authenticationStrategy进行多realm身份验证
+			//authenticator会把相应的token传入realm，从realm处获取身份信息。如果没有获取到，就会登录失败
+			//此处可以配置多个realm，将按照相应的顺序及策略进行访问
 			subject.login(token);
-
+			//请求后端数据库得到一个blogger对象
 			blogger = bloggerService.getByUsername(username);
 			SecurityUtils.getSubject().getSession().setAttribute(Const.CURRENT_USER, blogger);
-
 			return "redirect:/admin/main.jsp";
 		}catch(Exception e) {
 			e.printStackTrace();
+			//此时blogger对象密码为空，用于前台数据的回显
 			request.setAttribute("blogger", blogger);
 			request.setAttribute("errorInfo", "用户名或密码错误");
 		}
-		
 		return "login";
-		
 	}
 	
 	/**

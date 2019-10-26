@@ -8,6 +8,7 @@ import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 
@@ -35,10 +36,9 @@ public class MyRealm extends AuthorizingRealm{
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 		//从令牌中取出用户名
 		String username = (String)token.getPrincipal();
-		//让shiro去验证账号密码
+		//让shiro去验证用户名是否存在，存在就继续验证
 		Blogger blogger = bloggerService.getByUsername(username);
 		if(blogger!=null) {
-			SecurityUtils.getSubject().getSession().setAttribute(Const.CURRENT_USER, blogger);
 			AuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(blogger.getUsername(), blogger.getPassword(),getName());
 			return authenticationInfo;
 		}

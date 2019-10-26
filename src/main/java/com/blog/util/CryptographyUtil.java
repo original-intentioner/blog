@@ -9,6 +9,7 @@ public class CryptographyUtil {
 	 * @param args
 	 */
 	public static String md5(String str , String salt) {
+		//用md5进行盐值加密后转换为字符串
 		return new Md5Hash(str,salt).toString();
 	}
 	

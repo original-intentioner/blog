@@ -2,8 +2,9 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
+<!-- 命名空间和dao接口的包名一致，可以直接根据命名空间生成mapper的代理对象 -->
 <mapper namespace="com.blog.dao.BloggerDao">
+	<!-- 结果映射，id为sql语句的指定id，type为java对象的映射，此处使用的是别名 -->
 	<resultMap type="Blogger" id="BloggerResult">
 		<result property="id" column="id"/>
 		<result property="username" column="username"/>
@@ -13,10 +14,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="profile" column="profile"/>
 		<result property="imageName" column="imageName"/>
 	</resultMap>
+	<!-- 通过username获得user对象。#{}指的是java对象直接转换为jdbc对象 -->
 	<select id="getByUsername" parameterType="String" resultMap="BloggerResult">
 		select * from t_blogger where username=#{username} 
 	</select>
-
+	<!-- 在前台直接封装为blogger对象传到后台,set标签来代表sql中的set，if标签来判断是否为空，
+		为空选择不设置而不是设置为空 -->
 	<update id="update" parameterType="Blogger" >
 		update t_blogger
 		<set>
@@ -38,6 +41,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</set>
 		where id=#{id}
 	</update>
+	<!-- 查找blogger对象，因为只有一个，所以直接限制为1 -->
 	<select id="find" resultMap="BloggerResult">
 		select * from t_blogger limit 1
 	</select>

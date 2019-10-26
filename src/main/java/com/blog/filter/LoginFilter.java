@@ -27,10 +27,7 @@ public class LoginFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest)req;
 		HttpServletResponse response = (HttpServletResponse)res;
 		//SecurityUtils.getSubject().getSession().setAttribute(Const.CURRENT_USER,null);
-		Object loginSession1 =SecurityUtils.getSubject().getSession().getAttribute(Const.CURRENT_USER);
 		Object loginSession = request.getSession().getAttribute(Const.CURRENT_USER);
-		System.out.println(loginSession1 == loginSession);
-		System.out.println(loginSession == null);
 		if(loginSession != null) {
 			response.sendRedirect("/Blog/admin/main.jsp");
 		}

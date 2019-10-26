@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
+<!-- 根据命名空间为指定的dao接口生成代理对象，方法就是sql映射的id名 -->
 <mapper namespace="com.blog.dao.BlogTypeDao">
 	<resultMap type="BlogType" id="blogTypeResult">
 		<result property="id" column="id"/>
@@ -11,6 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="blogCount" column="blogCount"/>
 	</resultMap>
 	
+	<!-- 关联查询，统计各个博客类型下对应的博客的数量-->
 	<select id="countList" parameterType="String" resultMap="blogTypeResult">
 		select t2.id,t2.typeName,count(t1.id) as blogCount  from t_blog t1
 		right join t_blogtype t2 on t1.typeId=t2.id
@@ -18,6 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		order by t2.orderNo
 	</select>
 	
+	<!-- 根据id获得博客类型的所有值 -->
 	<select id="findById" parameterType="Integer" resultMap="blogTypeResult">
 		select * from t_blogtype where id = #{id}
 	</select>

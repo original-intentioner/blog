@@ -28,7 +28,7 @@
   	<url-pattern>/*</url-pattern>
   </filter-mapping>
   
-  <!-- Spring上下文配置文件,在上下文对象创建的时候，在此文件下加载配置信息 -->
+  <!-- 在上下文对象创建的时候，在此文件下加载配置信息 -->
   <!-- 全局的servletContext参数， -->
   <context-param>
   	<param-name>contextConfigLocation</param-name>
@@ -88,7 +88,9 @@
   		<param-name>contextConfigLocation</param-name>
   		<param-value>classpath:spring-mvc.xml</param-value>
   	</init-param>
+  	<!-- 是否在web应用启动的时候加载servlet而不是等到第一次请求这个servlet时才实例化 -->
   	<load-on-startup>5</load-on-startup>
+  	<!-- servlet在预处理后将请求转交给一个异步线程来处理，线程本身返回至容器。 -->
   	<async-supported>true</async-supported>
   </servlet>
   
